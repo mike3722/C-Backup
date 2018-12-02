@@ -1,0 +1,456 @@
+#include "pch.h"
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <list>
+#include <algorithm>
+#include <string>
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <iostream>     // std::cout
+#include <algorithm>    // std::reverse
+#include <vector>       // std::vector
+
+using namespace std;
+using std::ofstream;
+using std::ifstream;
+
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
+using std::vector;
+using std::ifstream;
+using std::list;
+
+void question1()
+{
+	vector<unsigned int> nums;
+	ifstream in("C:\\users\\floodd\\Desktop\\TestFiles\\nums.txt");
+	if (in)
+	{
+		unsigned int num;
+		while (!in.eof())
+		{
+			in >> num;
+			nums.push_back(num);
+		}
+		int choice = 0;
+		do
+		{
+			cout << "Please enter a number to find, -1 to exit: ";
+			cin >> choice;
+			if (choice != -1)
+			{
+				bool found = false;
+				for (vector<unsigned int>::size_type i = 0;
+					i < nums.size(); i++)
+				{
+					if (nums[i] == choice)
+					{
+						cout << "Found at position " << i << endl;
+						found = true;
+						break;
+					}
+				}
+				if (!found)
+				{
+					cout << "Value not found." << endl;
+				}
+			}
+		} while (choice != -1);
+	}
+	else
+	{
+		cout << "File not found." << endl;
+	}
+}
+
+void question2()
+{
+	list<unsigned int> nums;
+	ifstream in("C:\\users\\floodd\\Desktop\\TestFiles\\nums.txt");
+	if (in)
+	{
+		unsigned int num;
+		while (!in.eof())
+		{
+			in >> num;
+			nums.push_back(num);
+		}
+		int choice = 0;
+		do
+		{
+			cout << "Please enter a number to find, -1 to exit: ";
+			cin >> choice;
+			if (choice != -1)
+			{
+				bool found = false;
+				list<unsigned int>::size_type i = 0;
+				for (list<unsigned int>::iterator
+					iter = nums.begin();
+					iter != nums.end(); iter++)
+				{
+					if (*iter == choice)
+					{
+						cout << "Found at position " << i << endl;
+						found = true;
+						break;
+					}
+					i++;
+				}
+				if (!found)
+				{
+					cout << "Value not found." << endl;
+				}
+			}
+		} while (choice != -1);
+	}
+	else
+	{
+		cout << "File not found." << endl;
+	}
+}
+
+bool greater(unsigned int a, unsigned int b)
+{
+	return a > b;
+}
+//std::sort(nums.begin(), nums.end(), greater);
+/*void question3()
+{
+	vector<unsigned int> nums;
+	ifstream in("C:\\users\\floodd\\Desktop\\TestFiles\\nums.txt");
+	if (in)
+	{
+		unsigned int num;
+		while (!in.eof())
+		{
+			in >> num;
+			nums.push_back(num);
+		}
+		std::sort(nums.begin(), nums.end(), greater);
+		for (vector<unsigned int>::size_type i = 0;
+			i < nums.size(); i++)
+		{
+			if (i != 0)
+			{
+				cout << ", ";
+			}
+			cout << nums[i];
+
+		}
+
+	}
+	else
+	{
+		cout << "File not found." << endl;
+	}
+}
+*/
+double getMedian(vector<int> nums)
+{
+	std::sort(nums.begin(), nums.end());
+	vector<int>::size_type mid = nums.size() / 2;
+	if (nums.size() % 2 == 1)
+	{
+		return nums[mid];
+	}
+	else
+	{
+		return (nums[mid - 1] + nums[mid]) / 2.0f;
+	}
+
+}
+
+void question5()
+{
+	vector<int> nums;
+	ifstream in("C:\\users\\floodd\\Desktop\\TestFiles\\nums.txt");
+	if (in)
+	{
+		int num;
+		while (!in.eof())
+		{
+			in >> num;
+			nums.push_back(num);
+		}
+		double median = getMedian(nums);
+		cout << "Median = " << median << endl;
+		for (vector<unsigned int>::size_type i = 0;
+			i < nums.size(); i++)
+		{
+			if (i != 0)
+			{
+				cout << ", ";
+			}
+			cout << nums[i];
+
+		}
+	}
+	else
+	{
+		cout << "Error reading file" << endl;
+	}
+}
+// diff between pass by refrence and pass by value is that when you pass by refrence you pass a copy whereas when you pass by value you pass a place in memory
+// conts means it cant be changed (constant)
+void print(const string label, const vector<int> &nums)
+{
+	cout << label;
+	for (vector<int>::size_type i = 0; i < nums.size(); i++)
+	{
+		if (i != 0)
+		{
+			cout << ", ";
+		}
+		cout << nums[i];
+	}
+	cout << endl;
+}
+
+void question6()
+{
+	vector<int> nums;
+	ifstream in("C:\\users\\floodd\\Desktop\\TestFiles\\nums.txt");
+	if (in)
+	{
+		int num;
+		while (!in.eof())
+		{
+			in >> num;
+			nums.push_back(num);
+		}
+		double median = getMedian(nums);
+		cout << "Median = " << median << endl;
+		vector<int> above;
+		vector<int> below;
+
+		for (vector<unsigned int>::size_type i = 0;
+			i < nums.size(); i++)
+		{
+			if (nums[i] > median)
+			{
+				above.push_back(nums[i]);
+			}
+			else
+			{
+				below.push_back(nums[i]);
+			}
+
+		}
+		print("Above: ", above);
+		print("below: ", below);
+
+	}
+	else
+	{
+		cout << "Error reading file" << endl;
+	}
+}
+//	& means pass by refrence
+double getMean(const vector<double> &nums)
+{
+	double total = 0;
+	for( double n : nums)
+	{
+	
+		total += n;
+	}
+	// if you divide by nums.size you will get back int so you must typecast to float to get double
+	return((double)total / nums.size());
+}
+double getMean(const vector<int> &nums)
+{
+	int total = 0;
+	for (int n : nums)
+	{
+
+		total += n;
+	}
+	// if you divide by nums.size you will get back int so you must typecast to float to get double
+	return((double)total / nums.size());
+}
+double getSTDev(const vector<int> &nums)
+{
+	double mean = getMean(nums);
+	vector<double> diff;
+	for (int n : nums) 
+	{
+		double tot =(mean-n);
+		diff.push_back(tot*tot);
+	}
+	double avgDiff = getMean(diff);
+	return sqrt(avgDiff);
+}
+void question8() 
+{
+	vector<int> nums = {600,470,170,430,300};
+	cout << getSTDev(nums) << endl;
+
+
+}
+void print(const string label, const vector<string> &nums)
+{
+	cout << label;
+	for (vector<int>::size_type i = 0; i < nums.size(); i++)
+	{
+		if (i != 0)
+		{
+			cout << ", ";
+		}
+		cout << nums[i];
+	}
+	cout << endl;
+}
+void question9() 
+{
+	vector<string> month = { "jan","apr","may","sept","nov","dec" };
+	vector<string>::iterator iter = month.begin();
+	iter++;
+	iter = month.insert(iter, "feb") +1;
+	iter = month.insert(iter, "mar") + 3;
+	iter = month.insert(iter, "jun") + 1;
+	iter = month.insert(iter, "jul") + 1;
+	iter = month.insert(iter, "aug") + 2;
+	iter = month.insert(iter, "oct");
+
+	print("Months: ",month);
+
+}
+bool areSame(const vector<int> &nums1, const vector<int> &nums2)
+{
+
+	//make copies of both
+	vector<int> a = nums1;
+	vector<int> b = nums2;
+
+	//now we have copies we can sort them
+	sort(a.begin(), a.end());
+	sort(b.begin(), b.end());
+
+
+	if (a.size() != b.size()) 
+	{
+		return false;
+	}
+		for (vector<int>::size_type i = 0; i < nums1.size(); i++)
+		{
+			if (a[i] != b[i]) 
+			{
+				return false;
+			} 
+		}
+	
+		return true;
+}
+void question10() 
+{
+
+	vector<int> a1 = { 1,2,3,4,5 };
+	vector<int> b1 = { 1,2,3,4,5 };
+	cout << "are same 1: " << areSame(a1, b1) << endl;
+	vector<int> a2 = { 5,4,3,2,1 };
+	vector<int> b2 = { 1,2,3,4,5 };
+	cout << "are same 1: " << areSame(a2, b2) << endl;
+	vector<int> a3 = { 4,3,2,1 };
+	vector<int> b3 = { 1,2,3,4,5 };
+	cout << "are same 1: " << areSame(a3, b3) << endl;
+	vector<int> a4 = { 5,4,3,2,1 };
+	vector<int> b4 = { 1,2,4,4,5};
+	cout << "Are Same 1: " << areSame(a4, b4) << endl;
+}
+void question11() 
+{
+	//void areSame(const vector<int>& a, const vector<int>& b)
+	//this creates copy which is fast
+	//void areSame(const vector<int> a, const vector<int> b)
+	//creates copy of whole element in memeory which can slow down machines
+}
+int areSameUntil(const vector<int> &nums1, const vector<int> &nums2)
+{
+
+	//make copies of both
+	vector<int> a = nums1;
+	vector<int> b = nums2;
+
+	// solves problem if not the smae size
+	vector<int>::size_type min = a.size() < b.size() ? a.size() : b.size();
+
+	for (int i =0;i<min;i++)
+	{
+		
+		if (a[i] != b[i])
+		{
+			return (i-1);
+			
+		}
+		
+	}
+	return min-1;
+
+
+
+	
+}
+void question12() 
+{
+	vector<int> a1 = { 1,2,3,4,5};
+	vector<int> b1 = { 1,2,3,4,4,6};
+
+	cout << "Vectors are the same until the position " << areSameUntil(a1, b1) << endl;
+}
+bool areSameReverse(const vector<int> &nums1, const vector<int> &nums2)
+{
+	//make copies of both
+	vector<int> a = nums1;
+	vector<int> b = nums2;
+
+	if (a.size() != b.size())
+	{
+		return false;
+	}
+
+	//  end is pointing to last element in b
+	vector<int>::size_type end = b.size()-1 ;
+	
+	for (int i = 0; i < a.size(); i++)
+	{
+		if (a[i] != b[end-i])
+		{
+			return false;
+
+		}
+
+	}
+	return true;
+
+}
+void question13() 
+{
+	vector<int> a1 = { 1,2,3,4,5 };
+	vector<int> b1 = { 5,4,3,2,1 };
+	cout << "Are Same in Reverse =  " << areSameReverse(a1, b1) << endl;
+
+	vector<int> a2 = { 5,4,3,2,1 };
+	vector<int> b2 = { 5,4,3,2,1 };
+	cout << "Are Same in Reverse =  " << areSameReverse(a2, b2) << endl;
+
+	vector<int> a3 = { 5,4,3,2,1 };
+	vector<int> b3 = { 1,2,3,4,5 };
+	cout << "Are Same in Reverse =  " << areSameReverse(a3, b3) << endl;
+
+	vector<int> a4 = { 5,4,3,2,1 };
+	vector<int> b4 = { 1,2,3,8,6 };
+	cout << "Are Same in Reverse =  " << areSameReverse(a4, b4) << endl;
+}
+void question14() 
+{
+
+
+}
+int main()
+{
+	question13();
+}
